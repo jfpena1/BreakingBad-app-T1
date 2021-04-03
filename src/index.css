@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.characterPhoto {
+  height: 30%;
+  width: 30%;
+  padding:15px;
+  float:left;
+}
+
+.characterInfo {
+  float:right;
+  width: 60%;
+  background-color: silver;
+  padding:2%;
+  margin-top: 2%;
+}
