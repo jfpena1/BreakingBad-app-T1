@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react"
-import SeasonList from "./SeasonList"
+import fetchdata from "../helpers/fetchData.js"
 import '../App.css';
-
+import CharacterUi from "./CharacterUi.js"
 /* 
  name, occupation (array), img, status, nickname, bbAppearances, 
 bcsAppearences, portrayed, category
 */
+const apiGeneralUrl = "https://tarea-1-breaking-bad.herokuapp.com/api/"
 
 function Character(props) {
 
     const [name, setName] = useState("")
-    const [ocuppations, setOccupations] = useState([])
+    const [occupations, setOccupations] = useState([])
     const [img, setImg] = useState("")
     const [status, setStatus] = useState("")
     const [nickname, setNickname] = useState("")
@@ -18,103 +19,77 @@ function Character(props) {
     const [bcsAppearances, setBcsAppearances] = useState([])
     const [portrayed, setPortrayed] = useState("")
     const [category, setCategory] = useState("")
+    const [quotes, setQuotes] = useState([])
 
     useEffect(() => {
         let queryName = props.name.split(" ").join("+")
-        let urlCharacter = "https://tarea-1-breaking-bad.herokuapp.com/api/characters?name=" + 
-        queryName
+        let urlCharacter = apiGeneralUrl + "characters?name=" + queryName
+        let urlQuotes = apiGeneralUrl + "quote?author=" + queryName
         console.log(urlCharacter)
-        try {
-            fetch(urlCharacter)
-            .then(resRaw =>  resRaw.json())
-            .then( resList => {
-                let res = resList[0]
-                setName(res.name)
-                setOccupations(res.occupation)
-                setImg(res.img)
-                setStatus(res.status)
-                setNickname(res.nickname)
-                setBbAppearances(res.appearance)
-                setBcsAppearances(res.better_call_saul_appearance)
-                setPortrayed(res.portrayed)
-                setCategory(res.category)
-            })
+        console.log(urlQuotes)
 
-        } catch (Error) {
-            console.log(Error)
+        function setCharacterData() {
+            try {
+                fetch(urlCharacter)
+                .then(resRaw =>  resRaw.json())
+                .then(resList => {
+                let characterRes = resList[0] 
+                // setting character feautures
+                setName(characterRes.name)
+                setOccupations(characterRes.occupation)
+                setImg(characterRes.img)
+                setStatus(characterRes.status)
+                setNickname(characterRes.nickname)
+                setBbAppearances(characterRes.appearance)
+                setBcsAppearances(characterRes.better_call_saul_appearance)
+                setPortrayed(characterRes.portrayed)
+                setCategory(characterRes.category)
+                })
+            } catch (Error) {
+                console.log("Error al hacer fetch de datos del personaje")
+                console.log(Error)
+            }
         }
+
+        function setCharacterQuotes() {
+            try {
+                fetch(urlQuotes)
+                .then(resRaw =>  resRaw.json())
+                .then(resList => {
+                let quoteRes = resList
+                setQuotes(quoteRes)
+                })  
+            } catch (Error) {
+                console.log("Error al hacer fetch de quotes del personaje")
+                console.log(Error)
+            } 
+        }
+
+        setCharacterData()
+        setCharacterQuotes()
     }, [])
-
-    // returns a comma-separated list of things
-    function listToString(list, listName) {
-
-        return(
-            list.length > 0 ? 
-            listName + ": " + list.join(", ") :
-            null 
-        )
-    }
-
 
     return(
         <div className="App">
             <header className="App-header">
                 <p>
-                Character Component!
+                    Character Component!
                 </p>
             </header>
-            <div> 
-                <img className="characterPhoto" src={img} />
-            </div>
-            <div className="characterInfo">
-                <ul>
-                    <li>
-                        Nombre: {name} 
-                    </li>
-                    <br/>
-                    <li>
-                        Status: {status} 
-                    </li>
-                    <br/>
-                    <li>
-                        Sobrenombre: {nickname} 
-                    </li>
-                    <br/>
-                    <li>
-                        Actuado por: {portrayed} 
-                    </li>
-                    <br/>
-                    <li>
-                        Series en las que aparece: {category} 
-                    </li>
-                    
-                    {bbAppearances.length > 0 ?
-                    <li>
-                        <SeasonList seasons={bbAppearances} 
-                        seriesName="Breaking Bad"
-                        />
-                    </li>:
-                    null
-                    }
-                    
-                    {bcsAppearances.length > 0 ?
-                    <li>
-                        <SeasonList seasons={bcsAppearances} 
-                        seriesName="Better Call Saul"
-                        />
-                    </li>:
-                    null
-                    }
-                    <br />
-                    <li>
-                        {listToString(ocuppations, "Trabajos")}
-                    </li>
-                    <br/>
-                </ul>
-            </div>
+            <CharacterUi 
+                name={name}
+                img={img} 
+                status={status}
+                nickname={nickname} 
+                portrayed={portrayed}
+                category={category} 
+                bbAppearances={bbAppearances}
+                bcsAppearances={bcsAppearances} 
+                occupations={occupations}
+                quotes={quotes}
+            />
         </div>
     )
-
     }
 
 export default Character

@@ -12,17 +12,40 @@ code {
     monospace;
 }
 
+
 .characterPhoto {
-  height: 30%;
-  width: 30%;
-  padding:15px;
+  size: 30%;
   float:left;
+  margin: 2%;
 }
 
 .characterInfo {
   float:right;
-  width: 60%;
+  width: 50%;
+  height: 50%;
   background-color: silver;
   padding:2%;
-  margin-top: 2%;
+  margin: 2%;
+  display:flex
+}
+.characterQuotes {
+  float:center;
+  width: 50%;
+  height: 20%;
+  background-color: #282c34;
+  font-style: "italic";
+  padding:1% 2%;
+  display:flex
+}
+
+.container {
+  width: 200px;
+}
+.quote{
+  font-style: "italic";
+  color: "white";
+}
+
+.seasonLi {
+  list-style-type : none;
 }
