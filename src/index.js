@@ -1,17 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import BreakingBadHeader from "./components/BreakingBadHeader"
 import './index.css';
 import App from './App';
+import Character from "./components/Character"
+import Season from "./components/Season"
+import Episode from "./components/Episode"
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Router>
+    <div className="container">
+      <BreakingBadHeader />
+    </div>
+    <Switch>
+      <Route 
+        path="/" exact 
+        component={App}
+      />
+      <Route 
+        path="/:series/season/:season" 
+        component={Season}
+      />
+      <Route 
+        path="/episode/:episodeId" 
+        component={Episode}
+      />
+      <Route 
+        path="/character/:name" 
+        component={Character}
+      />
+    </Switch>
+  </Router>
+  
+  , document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// <Character name="Walter White" />
+// <Episode data={episodeTest} />
+// <Season series="Breaking Bad" season="1" /> 
+
 reportWebVitals();

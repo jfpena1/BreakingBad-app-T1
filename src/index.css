@@ -11,3 +11,78 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.img {
+  size: 20%;
+  float:left;
+  margin: 1%;
+}
+
+.container {
+  width: fit-content; 
+  height: fit-content;
+  size: 20%;
+}
+.characterPhoto {
+  size: 5%;
+  float:left;
+  margin: 2% 1% 0% 0%;
+}
+.characterInfo {
+  float:right;
+  width: 65%;
+  height: 30%;
+  background: #2b2b2b;
+  border:3px solid #fff;
+  background: -webkit-linear-gradient(130deg, #2f3a36 0%, #22302a 100%, #000000 90%);
+  background: -moz-linear-gradient(130deg,#2f3a36 0%, #32463e 100%, #000000 90%);
+  background: -o-linear-gradient(130deg, #2f3a36 0%,#32463e 100%, #000000 90%);
+  background: linear-gradient(130deg, #2f3a36 0%,#32463e 100%, #000000 90%);
+  box-shadow:inset 0px 2px 2px rgba(50,50,50,.6);
+  color: white ;
+  padding:2% 5%;
+  margin: 0.5% 0.5%;
+}
+.episodeInfo {
+  float:right;
+  width: 60%;
+  height: 100%;
+  background:green;
+  border:3px solid #fff;
+  background: -webkit-linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  background: -moz-linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  background: -o-linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  background: linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  box-shadow:inset 0px 2px 2px rgba(50,50,50,.6);  
+  font-style: italic ;
+  padding: 2% 2%;
+  margin: 0%;
+  
+}
+.characterQuotes {
+  float:right;
+  width: 65%;
+  height: 100%;
+  background:green;
+  border:3px solid #fff;
+  background: -webkit-linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  background: -moz-linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  background: -o-linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  background: linear-gradient(130deg, #46a08c 0%, #1C3F1D 100%, #303030 90%);
+  box-shadow:inset 0px 2px 2px rgba(50,50,50,.6);  
+  font-style: italic ;
+  color: white ;
+  padding:0.5% 5%;
+  margin: 2% 0.5%;
+  display:flex
+}
+
+.quote{
+  font-style: "italics";
+  color: "white";
+}
+
+.seasonLi {
+  list-style-type : none;
+  color: rgb(168, 255, 226)  ;
+}
