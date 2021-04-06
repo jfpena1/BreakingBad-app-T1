@@ -1,43 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
-import List from "./components/List"
+import './index';
 import BreakingBadHeader from "./components/BreakingBadHeader"
+import Series from "./components/Series"
 
 
 function App() {
   return (
     <div>
-      <div>
-        <header>
-          <BreakingBadHeader />
-        </header>
+      <div className="characterPhoto">
+        <img style={{maxWidth: "500px"}} 
+            src="https://i.pinimg.com/736x/39/9d/71/399d7189faab2601b0e2dd60a143207e.jpg" 
+            alt="https://i.pinimg.com/736x/39/9d/71/399d7189faab2601b0e2dd60a143207e.jpg"
+        />
+        <Series seriesName="Breaking+Bad"/>
       </div>
-      <div>
-        <div className="characterPhoto" >
-          <img 
-              src="https://i.pinimg.com/736x/39/9d/71/399d7189faab2601b0e2dd60a143207e.jpg" 
-              alt="https://i.pinimg.com/736x/39/9d/71/399d7189faab2601b0e2dd60a143207e.jpg"
-          />
-        </div>
-        <div className="characterInfo">
-          <List list={["1", "2", "3"]} 
-          seriesName="Breaking Bad"
-          listType="seasons"
-          />
-        </div>
-      </div>
-      
-      <div>
-        <img className="characterPhoto" 
+      <div className="characterPhoto" >
+        <img style={{maxWidth: "500px"}}
             src="https://vistapointe.net/images/better-call-saul-wallpaper-2.jpg" 
             alt="https://vistapointe.net/images/better-call-saul-wallpaper-2.jpg"
-        />
-        <div className="characterInfo">
-          <List list={["1", "2", "3"]} 
-          seriesName="Better Call Saul"
-          listType="seasons"
-          />
-        </div>
+        />   
+        <Series seriesName="Better+Call+Saul"/>
       </div>
     </div>
   )

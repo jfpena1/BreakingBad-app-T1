@@ -1,25 +1,27 @@
 import React from "react"
 import '../BreakingBad.css'
+import {Link} from "react-router-dom"
 // Obtenido de https://codepen.io/NateGriffin/pen/alEqg
 
 function BreakingBadHeader() {
     return(
         <div>
-            <head>
-                <meta charset="UTF-8" />
-                <title>Breaking Bad Final Season</title>
-            </head>
-            <body>
-            <div>
-                <p>
-                <span class="seasonNum">05</span>
-                <span class="B br">Br</span>eaking  
-                </p>
-                <p class="bad">        
-                <span class="episodeNum">09</span>
-                <span class="B">AP</span>I</p>
-            </div>
-            </body>
+            <p>
+                <span class="seasonNum">T1</span>
+                <span class="B br">Br</span>eaking
+                <span class="episodeNum">IIC3103</span> 
+                <span class="B">AP</span>I  
+            </p> <br/>
+            <Link to="/"> 
+                    <h3 
+                        style={
+                            {color:"whitesmoke", 
+                            textDecoration:"none"
+                            }
+                        }>
+                        Home
+                    </h3>
+            </Link>
         </div>
     )
 }

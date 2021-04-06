@@ -1,16 +1,23 @@
 import React from "react"
 import '../index.css';
+import {Link} from "react-router-dom"
 
-// debe recibir: nombre season, episodios : {...}]
 function EpisodeList(props) {
     return (
-        <div>
+        <div className="episodeInfo">
             <ul>
             {props.episodes.map((episodeInfo, index) => {
                 return (
-                        <li className="seasonLi" key={index} >
+                        <h4 className="seasonLi" key={index} >
+                            <Link style={{
+                                color: "whitesmoke", 
+                                textDecoration:"none"}}
+                                to={`/episode/${episodeInfo.episode_id}`}
+                            >
                             <a>Ep.{episodeInfo.episode} : {episodeInfo.title}</a>
-                        </li>
+                            </Link>
+                            
+                        </h4>
                 )
             })}
             </ul>

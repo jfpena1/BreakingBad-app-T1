@@ -4,23 +4,25 @@ import EpisodeList from "./EpisodeList.js"
 
 const apiGeneralUrl = "https://tarea-1-breaking-bad.herokuapp.com/api/"
 //recibe el nombre de la serie, y el numero de season
-
-function Season(props) {
+// match.params
+function Season({match}) {
+    const {params} = match
     const [episodes, setEpisodes] = useState([])
     const [isReady, setIsReady] = useState(false)
-    const title = "Episodios de Temporada " + props.season + " de " + props.series
+    const title = "Episodios de Temporada " + params.season + " de " + 
+        params.series.split("+").join(" ")
+    const imgUrl = (params.series === "Breaking+Bad"?
+    "https://i.pinimg.com/736x/39/9d/71/399d7189faab2601b0e2dd60a143207e.jpg":
+    "https://vistapointe.net/images/better-call-saul-wallpaper-2.jpg")
 
     useEffect(() => {
-        let querySeries = props.series.split(" ").join("+")
-        let urlEpisodes = apiGeneralUrl + "episodes?series=" + querySeries
+        let urlEpisodes = apiGeneralUrl + "episodes?series=" + params.series
         function fetchAndSetEpisodes() {
             try {
                 fetch(urlEpisodes)
                 .then(resRaw =>  resRaw.json())
                 .then(resList => {
-                let seasonEpisodes = SelectSeasonEpisodes(resList, props.season)
-                console.log(seasonEpisodes)
-                console.log(props.series)
+                let seasonEpisodes = SelectSeasonEpisodes(resList, params.season)
                 setEpisodes(seasonEpisodes)
                 setIsReady(true)
                 })  
@@ -31,13 +33,23 @@ function Season(props) {
         }
 
         fetchAndSetEpisodes()
-    }, [])
-
+    }, [params])
 
     return(
         <div>
-            <h4>{!isReady ?  "Cargando episodios...": title }</h4>
-            <EpisodeList series={props.series} episodes={episodes} />
+            <h2 style={{color: "white"}}>
+                {title}
+            </h2> 
+            <hr/><br/>
+            <div>
+                <img style={{maxWidth: "500px"}} 
+                    src={imgUrl} 
+                    alt={imgUrl}
+                />
+                {!isReady ?  <h4>Cargando episodios...</h4>: 
+                <EpisodeList series={params.series} episodes={episodes} />
+                }
+          </div>      
         </div>
     )
 }

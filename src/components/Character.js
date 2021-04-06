@@ -8,8 +8,8 @@ bcsAppearences, portrayed, category
 */
 const apiGeneralUrl = "https://tarea-1-breaking-bad.herokuapp.com/api/"
 
-function Character(props) {
-
+function Character({match}) {
+    const {params} = match
     const [name, setName] = useState("")
     const [occupations, setOccupations] = useState([])
     const [img, setImg] = useState("")
@@ -22,7 +22,7 @@ function Character(props) {
     const [quotes, setQuotes] = useState([])
 
     useEffect(() => {
-        let queryName = props.name.split(" ").join("+")
+        let queryName = params.name.split(" ").join("+")
         let urlCharacter = apiGeneralUrl + "characters?name=" + queryName
         let urlQuotes = apiGeneralUrl + "quote?author=" + queryName
         console.log(urlCharacter)
@@ -64,18 +64,13 @@ function Character(props) {
                 console.log(Error)
             } 
         }
-
+        
         setCharacterData()
         setCharacterQuotes()
     }, [])
 
     return(
         <div className="App">
-            <header className="App-header">
-                <p>
-                    Character Component!
-                </p>
-            </header>
             <CharacterUi 
                 name={name}
                 img={img} 
@@ -90,6 +85,6 @@ function Character(props) {
             />
         </div>
     )
-    }
+}
 
 export default Character

@@ -3,6 +3,7 @@ import List from "./List"
 import QuoteList from "./QuoteList"
 import listToString from "../helpers/listToString.js"
 import '../App.css'
+import '../index.css'
 
 
 function CharacterUi(props) {
@@ -11,16 +12,20 @@ function CharacterUi(props) {
     const seasonsBcsTitle = "Temporadas de Better Call Saul en las que aparece: "
     return( 
         <div>
-            <div> 
-                <img className="characterPhoto" src={props.img} />
-            </div>
             <div>
+                <h2 style={{color: "white",  float: "left"}}> {props.name} </h2> 
+            </div><br/><br/><hr/>
+            <img  
+                    style={{maxWidth: "400px", float: "left"}} 
+                    className="characterPhoto" 
+                    src={props.img} 
+                />
+            <div className="characterQuotes">
+                    <QuoteList list={props.quotes} />
+            </div>
                 <div className="characterInfo">
                         <h4> {title} </h4>
                         <ul>
-                            <li>
-                                Nombre: {props.name} 
-                            </li>
                             <br/>
                             <li>
                                 Status: {props.status} 
@@ -35,38 +40,32 @@ function CharacterUi(props) {
                             </li>
                             <br/>
                             <li>
-                                Series en las que aparece: {props.category} 
+                                {listToString(props.occupations, "Trabajos")}
                             </li>
+                            <br/>
                             <h4>{seasonsBbTitle}</h4>
                             {props.bbAppearances.length > 0 ?
                             <li>
                                 <List list={props.bbAppearances} 
-                                seriesName="Breaking Bad"
+                                seriesName="Breaking+Bad"
                                 listType="seasons"
                                 />
                             </li>:
-                            <p>Ninguna</p>
+                            <p6>Ninguna</p6>
                             }
                             <h4>{seasonsBcsTitle}</h4>
                             {props.bcsAppearances.length > 0 ?
                             <li>
                                 <List list={props.bcsAppearances} 
-                                seriesName="Better Call Saul"
+                                seriesName="Better+Call+Saul"
                                 listType="seasons"
                                 />
                             </li>:
-                            <p>Ninguna</p>
+                            <p6>Ninguna</p6>
                             }
                             <br />
-                            <li>
-                                {listToString(props.occupations, "Trabajos")}
-                            </li>
                         </ul>
                 </div>
-                <div className="characterQuotes">
-                    <QuoteList list={props.quotes} />
-                </div>
-            </div>
         </div>
     )
 }

@@ -1,30 +1,32 @@
 import React from "react"
 import '../index.css';
+import {Link} from "react-router-dom"
 
 function List(props) {
-    let title
-    let linkText
+    let series = props.seriesName
+    let linkText, path
+    
     if (props.listType === "seasons") {
         linkText = "Temporada "
+        path = "/" + series + "/season/"
     }
     else if (props.listType ==="characters") {
         linkText = null
+        path = "/character/"
     }
     
-    // si es un character hay que darle el nombre del character (value en el map)
-    // si es una temporada, hay que darle la serie y el n° de season (index en el map)
     return (
-        <div>
-            <ul>
+        <ul>
             {props.list.map((value, index) => {
                 return (
-                        <li className="seasonLi" key={index} >
-                            <a>{linkText}{value}</a> 
-                        </li>
+                    <li className="seasonLi" key={index} >
+                        <Link className="seasonLi" to={`${path}${value}`}>
+                            {linkText}{value}
+                        </Link> 
+                    </li>
                 )
             })}
-            </ul>
-        </div>
+        </ul>   
     )
 }
 

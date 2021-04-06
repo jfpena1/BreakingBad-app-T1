@@ -1,38 +1,35 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import List from "./List"
+import EpisodeUi from "./EpisodeUi"
+const apiGeneralUrl = "https://tarea-1-breaking-bad.herokuapp.com/api/"
 
-function Episode(props) {
+function Episode({match}) {
+    const [episode, setEpisode] = useState({})
+    const [isReady, setIsReady] = useState(false)
+    const {params} = match
 
-    const title = " Datos del Episodio:"
-    const charactersTitle = "Personajes del capitulo:"
+    useEffect(() => {
+        let urlEpisode = apiGeneralUrl + "episodes/" + params.episodeId
+        function fetchEpisode() {
+            try {
+                fetch(urlEpisode)
+                .then(resRaw =>  resRaw.json())
+                .then(resList => {
+                setEpisode(resList[0])
+                setIsReady(true)
+                })  
+            } catch (Error) {
+                console.log("Error al hacer fetch del episodio ", params.episodeId)
+                console.log(Error)
+            }
+        }
+        fetchEpisode()
+    }, [])
+
     return(
         <div>
-            <div>
-                    <h1> {props.data.series} </h1>
-                    <h2> {props.data.title } </h2>
-            </div>   
-            <div className="characterInfo">
-                <h3>{title}</h3> <br/>
-                <ul>
-                    <li>
-                        Temporada: {props.data.season} 
-                    </li>
-                    <br/>
-                    <li>
-                        Fecha Lanzamiento: {
-                        props.data.air_date.slice(0,9)
-                        }
-                    </li>
-                    <br/>
-                    <h4>{charactersTitle}</h4>              
-                    <li>
-                        <List list={props.data.characters} 
-                        seriesName={props.data.series}
-                        listType="characters"
-                        />
-                    </li>
-                </ul>  
-            </div>
+            {isReady? <EpisodeUi episode={episode} /> :
+            <h2>Cargando capítulo...</h2>}
         </div>
     )
 }
