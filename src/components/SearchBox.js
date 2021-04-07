@@ -11,7 +11,7 @@ export default function SearchBox() {
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
   const apiGeneralUrl =
-    "https://tarea-1-breaking-bad.herokuapp.com/api/characters?";
+    "https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=";
   const history = useHistory();
 
   const handleChange = (event, newValue) => {
@@ -34,13 +34,25 @@ export default function SearchBox() {
     }
 
     (async () => {
-      const response = await fetch(apiGeneralUrl);
-      const characters = await response.json();
-      if (active) {
-        setOptions(Object.keys(characters).map((key) => characters[key]));
-
+      let characterUrl
+      for (let off = 0; off<500; off+=10) {
+        characterUrl = apiGeneralUrl + String(off)
+        const response = await fetch(characterUrl);
+        const characters = await response.json();
+        if (active) {
+          setOptions( prevOptions => {
+            let newOptions = prevOptions
+            console.log(prevOptions)
+            newOptions.push(...Object.keys(characters).
+              map((key) => characters[key]))
+            return (newOptions)
+          })
+          console.log(options)
+        }
+        if (characters.length < 10) {break}
       }
     })();
+    console.log("EDITED OPTIONS!")
 
     return () => {
       active = false;
