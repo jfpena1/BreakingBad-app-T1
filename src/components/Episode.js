@@ -28,6 +28,7 @@ function Episode({match}) {
 
     return(
         <div>
+            <br/>
             {isReady? <EpisodeUi episode={episode} /> :
             <h2>Cargando capítulo...</h2>}
         </div>

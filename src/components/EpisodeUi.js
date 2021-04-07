@@ -9,8 +9,8 @@ export default function EpisodeUi(props) {
         <div>
             <div>
                     <h1 style={{color: "lightgrey"}}> {episode.series} </h1>
-                    <h2 style={{color: "white"}}> Episode: {episode.title } </h2>
-            <hr color="white"/><br/>   
+                    <h2 style={{color: "white"}}> Episode: {episode.title } </h2>  
+            <br/>
             <div className="episodeInfo" style={{float: "left"}} >
                 <h3>{title}</h3> 
                 <hr color="black"/><br/>
