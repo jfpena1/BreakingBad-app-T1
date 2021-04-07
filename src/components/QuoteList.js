@@ -6,7 +6,8 @@ function QuoteList(props) {
     return (
         <div>
             <h4> {title} </h4>
-            <ul>
+            {props.list.length > 0? 
+                <ul>
                 {props.list.map((value, index) => {
                     return (
                             <li key={index} >
@@ -16,7 +17,10 @@ function QuoteList(props) {
                             </li>
                     )
                 })}
-            </ul>
+                </ul>
+            :
+            "Ninguna"}       
+   
         </div>
     )
 }

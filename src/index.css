@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin-left: 1%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -15,13 +15,13 @@ code {
 .img {
   size: 20%;
   float:left;
-  margin: 1%;
+  margin: 0%;
 }
 
 .container {
   width: fit-content; 
   height: fit-content;
-  size: 20%;
+  size: 80%;
 }
 .characterPhoto {
   size: 5%;
@@ -56,7 +56,6 @@ code {
   box-shadow:inset 0px 2px 2px rgba(50,50,50,.6);  
   font-style: italic ;
   padding: 2% 2%;
-  margin: 0%;
   
 }
 .characterQuotes {

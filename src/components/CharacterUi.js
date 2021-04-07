@@ -13,15 +13,17 @@ function CharacterUi(props) {
     return( 
         <div>
             <div>
-                <h2 style={{color: "white",  float: "left"}}> {props.name} </h2> 
-            </div><br/><br/><hr/>
+                <h2 style={{
+                    color: "white",  
+                    float: "left"}}> {props.name} </h2> 
+            </div><br/><br/>
             <img  
-                    style={{maxWidth: "400px", float: "left"}} 
+                    style={{maxWidth: "450px", float: "left"}} 
                     className="characterPhoto" 
                     src={props.img} 
                 />
             <div className="characterQuotes">
-                    <QuoteList list={props.quotes} />
+                <QuoteList list={props.quotes} />
             </div>
                 <div className="characterInfo">
                         <h4> {title} </h4>

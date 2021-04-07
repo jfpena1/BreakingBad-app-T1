@@ -11,9 +11,8 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <Router>
-    <div className="container">
-      <BreakingBadHeader />
-    </div>
+    <br/><br/>
+    <BreakingBadHeader />
     <Switch>
       <Route 
         path="/" exact 

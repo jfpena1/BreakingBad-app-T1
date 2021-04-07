@@ -37,10 +37,11 @@ function Season({match}) {
 
     return(
         <div>
+            <br/>
             <h2 style={{color: "white"}}>
                 {title}
             </h2> 
-            <hr/><br/>
+            <br/>
             <div>
                 <img style={{maxWidth: "500px"}} 
                     src={imgUrl} 
