@@ -4,12 +4,15 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {Link, useHistory} from "react-router-dom";
+import { useEffect, useState } from 'react';
 // Obtenido de https://material-ui.com/es/components/autocomplete/#search-input
 
 export default function SearchBox() {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
+  const [error, setError] = React.useState(null);
   const loading = open && options.length === 0;
+  
   const apiGeneralUrl =
     "https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=";
   const history = useHistory();
@@ -37,22 +40,27 @@ export default function SearchBox() {
       let characterUrl
       for (let off = 0; off<500; off+=10) {
         characterUrl = apiGeneralUrl + String(off)
-        const response = await fetch(characterUrl);
-        const characters = await response.json();
-        if (active) {
-          setOptions( prevOptions => {
-            let newOptions = prevOptions
-            console.log(prevOptions)
-            newOptions.push(...Object.keys(characters).
-              map((key) => characters[key]))
-            return (newOptions)
-          })
-          console.log(options)
-        }
-        if (characters.length < 10) {break}
+        try {
+          const response = await fetch(characterUrl);
+          const characters = await response.json();
+          if (active) {
+            setOptions( prevOptions => {
+              let newOptions = prevOptions
+              newOptions.push(...Object.keys(characters).
+                map((key) => characters[key]))
+              return (newOptions)
+            })
+            console.log(options)
+          }
+          if (characters.length < 10) {break}
+        } catch (Error) {
+          console.log("Error al hacer fetch de characters")
+          console.log(Error)
+          setError(Error)
+        } 
+        
       }
     })();
-    console.log("EDITED OPTIONS!")
 
     return () => {
       active = false;
@@ -66,58 +74,76 @@ export default function SearchBox() {
     }
   }, [open]);
 
+  React.useEffect(() => {
+        if (error) {
+            setTimeout(() => {
+              setError(null)  
+            }, 3000)
+        }
+    } , [error]) 
+
  
   return (
    
-    <Autocomplete
-      id="asynchronous-demo"
-      clearOnEscape
-      style={{ 
-        width: 400 ,
-        float:"right",
-        marginRight: "5%"
-    }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-
-      }}
-      getOptionSelected={(option, value) => option.name === value.name}
-      onChange={handleChange}
-      getOptionLabel={(option) => option.name}
-      options={options}
-      loading={loading}
-      autoComplete={false}
-      renderInput={(params) => (
-      <TextField
-        {...params}
-        placeholder="Busca un Personaje"
-        style={{
-        backgroundColor: "whitesmoke",
-        color:"white",
-        borderColor: "whitesmoke"}}
-        variant="outlined"
-        required={true}
-        InputProps={{
-          ...params.InputProps,
-          endAdornment: (
-            <React.Fragment>
-              {loading ? (
-                <CircularProgress 
-               size={20} />
-              ) : null}
-              {
-              params.InputProps.endAdornment}
-            </React.Fragment>
-          )
+    <div>
+      {error? 
+      <p2 style={{
+        color:"red",
+        float:"right"}}>
+        {String(error)}
+      </p2>: 
+      <Autocomplete
+        id="asynchronous-demo"
+        clearOnEscape
+        style={{ 
+          width: 400 ,
+          float:"right",
+          marginRight: "5%"
         }}
-      >
-      </TextField>
-      
-      )}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+
+        }}
+        getOptionSelected={(option, value) => 
+          option.name === value.name}
+        onChange={handleChange}
+        getOptionLabel={(option) => option.name}
+        options={options}
+        loading={loading}
+        autoComplete={false}
+        renderInput={(params) => (
+        <TextField
+          {...params}
+          placeholder={"Busca un Personaje"}
+          style={{
+          backgroundColor: "whitesmoke",
+          color:"white",
+          borderColor: "whitesmoke"}}
+          variant="outlined"
+          required={true}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? (
+                  <CircularProgress 
+                size={20} />
+                ) : null}
+                {
+                params.InputProps.endAdornment}
+              </React.Fragment>
+            )
+          }}
+        >
+        </TextField>
+        
+        )}
     />
+      }
+    </div>
   );
 }
