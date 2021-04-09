@@ -40,6 +40,7 @@ export default function SearchBox() {
     let active = true;
 
     if (searchText === "") {
+      setOptions([])
       return undefined;
     }
 
