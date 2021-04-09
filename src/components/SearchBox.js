@@ -28,7 +28,7 @@ export default function SearchBox() {
       history.push("/character/"+nameQuery);
       window.location.reload()
     }
-  };git 
+  }
 
   const handleTextChange = ({target}) => {
     let newText = target.value
