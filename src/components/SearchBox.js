@@ -8,16 +8,17 @@ import { useEffect, useState } from 'react';
 // Obtenido de https://material-ui.com/es/components/autocomplete/#search-input
 
 export default function SearchBox() {
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [error, setError] = React.useState(null);
-  const loading = open && options.length === 0;
+  const [searchText, SetSearhText] = React.useState("");
+  // const loading = open && options.length === 0;
   
   const apiGeneralUrl =
-    "https://tarea-1-breaking-bad.herokuapp.com/api/characters?offset=";
+    "https://tarea-1-breaking-bad.herokuapp.com/api/characters?name=";
   const history = useHistory();
 
-  const handleChange = (event, newValue) => {
+  const handleSelection = (event, newValue) => {
     // console.log(event.target)
     console.log(newValue.name)
     let name = newValue.name
@@ -29,59 +30,62 @@ export default function SearchBox() {
     }
   };
 
+  const handleTextChange = ({target}) => {
+    let newText = target.value
+    console.log(newText)
+    SetSearhText(newText)
+  }
+
   React.useEffect(() => {
     let active = true;
 
-    if (!loading) {
+    if (searchText === "") {
       return undefined;
     }
 
     (async () => {
       let characterUrl
+      let nameQuery = searchText.split(" ").join("+")
       for (let off = 0; off<500; off+=10) {
-        characterUrl = apiGeneralUrl + String(off)
+        characterUrl = apiGeneralUrl + nameQuery + "&offset=" + String(off)
         try {
           const response = await fetch(characterUrl);
           const characters = await response.json();
+          
           if (active) {
-            setOptions( prevOptions => {
-              let newOptions = prevOptions
+            setOptions( () => {
+              let newOptions = []
               newOptions.push(...Object.keys(characters).
                 map((key) => characters[key]))
               return (newOptions)
             })
-            console.log(options)
           }
           if (characters.length < 10) {break}
+
         } catch (Error) {
           console.log("Error al hacer fetch de characters")
-          console.log(Error)
-          setError(Error)
-        } 
-        
+          if (String(Error).includes("429 Too Many Requests")) {
+            setError("Error: demasiadas requests, reintenta en 24 hrs")
+          }
+          else {
+            setError(Error)
+          }
+        }    
       }
     })();
 
     return () => {
       active = false;
     };
-  }, [loading]);
+  }, [searchText]);
 
   React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-      
+    if (error) {
+        setTimeout(() => {
+          setError(null)  
+        }, 3500)
     }
-  }, [open]);
-
-  React.useEffect(() => {
-        if (error) {
-            setTimeout(() => {
-              setError(null)  
-            }, 3000)
-        }
-    } , [error]) 
-
+  } , [error]) 
  
   return (
    
@@ -91,29 +95,21 @@ export default function SearchBox() {
         color:"red",
         float:"right"}}>
         {String(error)}
-      </p2>: 
+      </p2>:
       <Autocomplete
         id="asynchronous-demo"
         clearOnEscape
+        options={options}
         style={{ 
           width: 400 ,
           float:"right",
           marginRight: "5%"
         }}
-        open={open}
-        onOpen={() => {
-          setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-
-        }}
         getOptionSelected={(option, value) => 
           option.name === value.name}
-        onChange={handleChange}
+        onChange={handleSelection}
         getOptionLabel={(option) => option.name}
-        options={options}
-        loading={loading}
+        // loading={loading}
         autoComplete={false}
         renderInput={(params) => (
         <TextField
@@ -125,16 +121,12 @@ export default function SearchBox() {
           borderColor: "whitesmoke"}}
           variant="outlined"
           required={true}
+          onChange={handleTextChange}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
               <React.Fragment>
-                {loading ? (
-                  <CircularProgress 
-                size={20} />
-                ) : null}
-                {
-                params.InputProps.endAdornment}
+                { params.InputProps.endAdornment}
               </React.Fragment>
             )
           }}
@@ -142,7 +134,7 @@ export default function SearchBox() {
         </TextField>
         
         )}
-    />
+      />
       }
     </div>
   );
